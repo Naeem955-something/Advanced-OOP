@@ -99,28 +99,37 @@ npm start
 
 ```
 habit-tracker/
-├── .devcontainer/            # Codespaces configuration
-│   └── devcontainer.json
-├── backend/                  # Spring Boot backend
-│   ├── src/
-│   │   ├── main/java/com/example/habittracker/
-│   │   │   ├── controller/
-│   │   │   ├── service/
-│   │   │   ├── repository/
-│   │   │   └── model/
-│   │   └── resources/
-│   │       └── application.properties
-│   └── pom.xml
-├── frontend/                 # React TypeScript frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── services/
-│   │   └── App.tsx
+├── backend/
+│   ├── pom.xml
+│   └── src/main/
+│       ├── java/com/example/habittracker/
+│       │   ├── HabitTrackerApplication.java
+│       │   ├── controller/
+│       │   │   └── HabitController.java
+│       │   ├── model/
+│       │   │   └── Habit.java
+│       │   ├── repository/
+│       │   │   └── HabitRepository.java
+│       │   └── service/
+│       │       ├── HabitService.java
+│       │       └── HabitServiceImpl.java
+│       └── resources/
+│           └── application.properties
+│
+├── frontend/
 │   ├── package.json
-│   └── tsconfig.json
-├── README.md
-└── LAB_TEST_ONE.md
-```
+│   ├── public/
+│   │   └── index.html
+│   └── src/
+│       ├── components/
+│       │   ├── HabitForm.tsx
+│       │   └── HabitList.tsx
+│       ├── services/
+│       │   └── habitService.ts
+│       ├── App.tsx
+│       └── index.tsx
+│
+└── README.md
 
 ---
 
@@ -151,6 +160,7 @@ habit-tracker/
 * 🛠️ **Fixes & Enhancements:** `Bug fixes / UI improvements`
 
 ---
+
 
 
 
