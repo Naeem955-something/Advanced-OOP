@@ -1,0 +1,10 @@
+{
+  "name": "Habit Tracker Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "postCreateCommand": "cd backend && ./mvnw clean install && cd ../frontend && npm install",
+  "forwardPorts": [8080, 3000],
+  "workspaceFolder": "/workspace"
+}
