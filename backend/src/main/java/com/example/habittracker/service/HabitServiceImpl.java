@@ -2,56 +2,45 @@ package com.example.habittracker.service;
 
 import com.example.habittracker.model.Habit;
 import com.example.habittracker.repository.HabitRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HabitServiceImpl implements HabitService {
 
-    @Autowired
-    private HabitRepository habitRepository;
+    private final HabitRepository repository;
 
-    @Override
+    public HabitServiceImpl(HabitRepository repository) {
+        this.repository = repository;
+    }
+
     public List<Habit> getAllHabits() {
-        return habitRepository.findAll();
+        return repository.findAll();
     }
 
-    @Override
-    public Habit getHabitById(Long id) {
-        return habitRepository.findById(id).orElse(null);
+    public Habit getHabit(Long id) {
+        return repository.findById(id).orElseThrow();
     }
 
-    @Override
     public Habit createHabit(Habit habit) {
-        return habitRepository.save(habit);
+        return repository.save(habit);
     }
 
-    @Override
     public Habit updateHabit(Long id, Habit habit) {
-        if(habitRepository.existsById(id)) {
-            habit.setId(id);
-            return habitRepository.save(habit);
-        }
-        return null;
+        Habit existing = getHabit(id);
+        existing.setName(habit.getName());
+        existing.setDescription(habit.getDescription());
+        return repository.save(existing);
     }
 
-    @Override
-    public Habit partialUpdateHabit(Long id, Habit habit) {
-        Optional<Habit> existing = habitRepository.findById(id);
-        if(existing.isPresent()) {
-            Habit e = existing.get();
-            if(habit.getName() != null) e.setName(habit.getName());
-            if(habit.getDescription() != null) e.setDescription(habit.getDescription());
-            return habitRepository.save(e);
-        }
-        return null;
+    public Habit markCompleted(Long id) {
+        Habit habit = getHabit(id);
+        habit.setCompleted(true);
+        return repository.save(habit);
     }
 
-    @Override
     public void deleteHabit(Long id) {
-        habitRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

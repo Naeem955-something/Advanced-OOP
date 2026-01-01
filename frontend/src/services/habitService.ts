@@ -1,39 +1,28 @@
-const API_URL = "http://localhost:8080/api/habits";
+const API = "https://literate-umbrella-pjp6vjpqqj9jc7ggj-8080.app.github.dev/api/habits";
 
-export interface Habit {
-  id?: number;
-  name: string;
-  streak: number;
-  completed: boolean;
-}
+export const getHabits = async () =>
+  fetch(API).then(res => res.json());
 
-// Get all habits
-export const getHabits = async (): Promise<Habit[]> => {
-  const res = await fetch(API_URL);
-  return await res.json();
-};
-
-// Create habit
-export const createHabit = async (habit: Habit) => {
-  const res = await fetch(API_URL, {
+export const addHabit = async (habit: any) =>
+  fetch(API, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(habit),
   });
-  return await res.json();
-};
 
-// Update habit
-export const updateHabit = async (id: number, habit: Habit) => {
-  const res = await fetch(`${API_URL}/${id}`, {
+export const deleteHabit = async (id: number) =>
+  fetch(`${API}/${id}`, { method: "DELETE" });
+
+// ✅ Update an existing habit
+export const updateHabit = async (id: number, habit: any) =>
+  fetch(`${API}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(habit),
   });
-  return await res.json();
-};
 
-// Delete habit
-export const deleteHabit = async (id: number) => {
-  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-};
+// ✅ Mark a habit as completed
+export const completeHabit = async (id: number) =>
+  fetch(`${API}/${id}/complete`, {
+    method: "PATCH",
+  });

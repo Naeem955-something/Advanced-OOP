@@ -1,21 +1,14 @@
-import React, { useState } from "react";
-import { Habit, HabitForm } from "./components/HabitForm";
-import { HabitList } from "./components/HabitList";
+import HabitForm from "./components/HabitForm";
+import HabitList from "./components/HabitList";
 
-const App: React.FC = () => {
-  const [habitToEdit, setHabitToEdit] = useState<Habit | undefined>();
+export default function App() {
+  const reload = () => window.location.reload();
 
   return (
-    <div>
+    <>
       <h1>Habit Tracker</h1>
-      <HabitForm
-        habitToEdit={habitToEdit}
-        onSaved={() => setHabitToEdit(undefined)}
-        onCancel={() => setHabitToEdit(undefined)}
-      />
-      <HabitList onEdit={(habit) => setHabitToEdit(habit)} />
-    </div>
+      <HabitForm refresh={reload} />
+      <HabitList />
+    </>
   );
-};
-
-export default App;
+}

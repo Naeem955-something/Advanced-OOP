@@ -2,7 +2,6 @@ package com.example.habittracker.controller;
 
 import com.example.habittracker.model.Habit;
 import com.example.habittracker.service.HabitService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,36 +11,34 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class HabitController {
 
-    @Autowired
-    private HabitService habitService;
+    private final HabitService service;
 
-    @GetMapping
-    public List<Habit> getAllHabits() {
-        return habitService.getAllHabits();
+    public HabitController(HabitService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public Habit getHabitById(@PathVariable Long id) {
-        return habitService.getHabitById(id);
+    @GetMapping
+    public List<Habit> getAll() {
+        return service.getAllHabits();
     }
 
     @PostMapping
-    public Habit createHabit(@RequestBody Habit habit) {
-        return habitService.createHabit(habit);
+    public Habit create(@RequestBody Habit habit) {
+        return service.createHabit(habit);
     }
 
     @PutMapping("/{id}")
-    public Habit updateHabit(@PathVariable Long id, @RequestBody Habit habit) {
-        return habitService.updateHabit(id, habit);
+    public Habit update(@PathVariable Long id, @RequestBody Habit habit) {
+        return service.updateHabit(id, habit);
     }
 
-    @PatchMapping("/{id}")
-    public Habit partialUpdateHabit(@PathVariable Long id, @RequestBody Habit habit) {
-        return habitService.partialUpdateHabit(id, habit);
+    @PatchMapping("/{id}/complete")
+    public Habit complete(@PathVariable Long id) {
+        return service.markCompleted(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteHabit(@PathVariable Long id) {
-        habitService.deleteHabit(id);
+    public void delete(@PathVariable Long id) {
+        service.deleteHabit(id);
     }
 }

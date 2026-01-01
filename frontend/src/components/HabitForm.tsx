@@ -1,54 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { Habit, createHabit, updateHabit } from "../services/habitService";
+import { useState } from "react";
+import { addHabit } from "../services/habitService";
 
-interface Props {
-  habitToEdit?: Habit;
-  onSaved: () => void;
-  onCancel?: () => void;
+interface HabitFormProps {
+  refresh: () => void; // function passed from parent to reload habits
 }
 
-export const HabitForm: React.FC<Props> = ({ habitToEdit, onSaved, onCancel }) => {
+export default function HabitForm({ refresh }: HabitFormProps) {
   const [name, setName] = useState("");
-  const [streak, setStreak] = useState(0);
-  const [completed, setCompleted] = useState(false);
 
-  useEffect(() => {
-    if (habitToEdit) {
-      setName(habitToEdit.name);
-      setStreak(habitToEdit.streak);
-      setCompleted(habitToEdit.completed);
-    }
-  }, [habitToEdit]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const habit: Habit = { name, streak, completed };
-    if (habitToEdit?.id) {
-      await updateHabit(habitToEdit.id, habit);
-    } else {
-      await createHabit(habit);
-    }
-    setName("");
-    setStreak(0);
-    setCompleted(false);
-    onSaved();
+    if (name.trim() === "") return;
+
+    await addHabit({ name, completed: false }); // add new habit
+    setName(""); // clear input
+    refresh(); // refresh the habit list in parent
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+    <form onSubmit={submit}>
       <input
-        type="number"
-        placeholder="Streak"
-        value={streak}
-        onChange={(e) => setStreak(parseInt(e.target.value))}
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Enter habit"
       />
-      <label>
-        Completed:
-        <input type="checkbox" checked={completed} onChange={(e) => setCompleted(e.target.checked)} />
-      </label>
-      <button type="submit">{habitToEdit ? "Update" : "Add"} Habit</button>
-      {onCancel && <button type="button" onClick={onCancel}>Cancel</button>}
+      <button type="submit">Add</button>
     </form>
   );
-};
+}
