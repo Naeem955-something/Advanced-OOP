@@ -106,8 +106,9 @@ This project demonstrates:
 ### **3. Run Backend**
 
 ```bash
-cd backend
-./mvnw spring-boot:run
+cd /workspaces/Advanced-OOP/backend
+mvn spring-boot:run
+
 ```
 
 * 🔗 Backend API available at:
@@ -120,8 +121,10 @@ cd backend
 ### **4. Run Frontend**
 
 ```bash
-cd frontend
+cd /workspaces/Advanced-OOP/frontend
+npm install
 npm start
+
 ```
 
 * 🔗 Frontend available at:
@@ -198,3 +201,4 @@ habit-tracker/
 
 
 Do you want me to do that?
+
